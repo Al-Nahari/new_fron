@@ -1,10 +1,10 @@
-@import '../../../app/globals.scss';
+@use '../../../app/variables' as *;
 
 .article-page {
   padding: 40px 0;
   
   &-container {
-    @extend .container;
+    composes: container from global;
     max-width: 800px;
   }
   
@@ -19,12 +19,12 @@
   }
   
   &-error {
-    @extend .error-message;
+    composes: error-message from global;
     padding: 100px 20px;
   }
   
   &-empty {
-    @extend .empty-state;
+    composes: empty-state from global;
     padding: 100px 20px;
   }
   
@@ -180,11 +180,10 @@
   }
   
   &-grid {
-    @extend .grid;
-    @extend .grid-3;
+    composes: grid grid-3 from global;
     
     @include respond-to(mobile) {
-      @extend .grid-1;
+      grid-template-columns: 1fr;
     }
   }
 }

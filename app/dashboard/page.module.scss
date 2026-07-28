@@ -1,10 +1,10 @@
-@import '../../app/globals.scss';
+@use '../../app/variables' as *;
 
 .dashboard-page {
   padding: 40px 0;
   
   &-container {
-    @extend .container;
+    composes: container from global;
   }
   
   &-header {
@@ -20,13 +20,12 @@
   }
   
   &-grid {
-    @extend .grid;
-    @extend .grid-3;
+    composes: grid grid-3 from global;
     margin-bottom: 40px;
   }
   
   &-card {
-    @extend .card;
+    composes: card from global;
     padding: 24px;
     
     &-value {
@@ -111,7 +110,7 @@
   }
   
   &-error {
-    @extend .error-message;
+    composes: error-message from global;
   }
   
   &-success {
@@ -181,7 +180,7 @@
   }
   
   &-error {
-    @extend .error-message;
+    composes: error-message from global;
     padding: 12px;
   }
 }

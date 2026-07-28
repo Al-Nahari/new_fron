@@ -1,46 +1,7 @@
-// Variables
-$primary-color: #0070f3;
-$secondary-color: #00c6ff;
-$background-color: #ffffff;
-$text-color: #333333;
-$text-light: #666666;
-$border-color: #e0e0e0;
-$shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-$shadow-hover: 0 4px 16px rgba(0, 0, 0, 0.15);
-
-// Breakpoints
-$mobile: 480px;
-$tablet: 768px;
-$desktop: 1024px;
-$wide: 1280px;
-
-// Mixins
-@mixin flex-center {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-@mixin flex-between {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-@mixin flex-column {
-  display: flex;
-  flex-direction: column;
-}
-
-@mixin respond-to($breakpoint) {
-  @if $breakpoint == mobile {
-    @media (max-width: #{$tablet - 1}) { @content; }
-  } @else if $breakpoint == tablet {
-    @media (min-width: $tablet) and (max-width: #{$desktop - 1}) { @content; }
-  } @else if $breakpoint == desktop {
-    @media (min-width: $desktop) { @content; }
-  }
-}
+// Variables & mixins are defined in _variables.scss so that
+// *.module.scss files can import them without pulling in bare selectors.
+@use 'sass:color';
+@use './variables' as *;
 
 // Reset
 * {
@@ -132,7 +93,7 @@ h3 {
     color: white;
     
     &:hover {
-      background: darken($primary-color, 10%);
+      background: color.adjust($primary-color, $lightness: -10%);
       transform: translateY(-2px);
       box-shadow: $shadow-hover;
     }
@@ -143,7 +104,7 @@ h3 {
     color: white;
     
     &:hover {
-      background: darken($secondary-color, 10%);
+      background: color.adjust($secondary-color, $lightness: -10%);
       transform: translateY(-2px);
     }
   }

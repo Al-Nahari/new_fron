@@ -1,11 +1,13 @@
 import type { NextConfig } from "next";
 
+// The Django backend URL. On Vercel, set this in
+// Project Settings -> Environment Variables (both NEXT_PUBLIC_API_URL
+// and BACKEND_URL should point at your deployed backend, e.g. Render).
+// Falls back to localhost only for local development.
+const BACKEND_URL = process.env.NEXT_PUBLIC_API_URL || process.env.BACKEND_URL || "http://127.0.0.1:8000";
+
 const nextConfig: NextConfig = {
   images: {
-    domains: [
-      "images.unsplash.com",
-      "randomuser.me",
-    ],
     remotePatterns: [
       {
         protocol: "http",
@@ -30,15 +32,15 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/api/:path*",
-        destination: "http://127.0.0.1:8000/api/:path*",
+        destination: `${BACKEND_URL}/api/:path*`,
       },
       {
         source: "/graphql",
-        destination: "http://127.0.0.1:8000/graphql",
+        destination: `${BACKEND_URL}/graphql`,
       },
       {
         source: "/media/:path*",
-        destination: "http://127.0.0.1:8000/media/:path*",
+        destination: `${BACKEND_URL}/media/:path*`,
       },
     ];
   },
