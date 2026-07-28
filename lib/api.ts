@@ -1,6 +1,10 @@
-import { Article, Author, Category, Tag } from '@/types'
+import { Article, Author, Category, Tag, Stats } from '@/types'
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://news-ddd.onrender.com/'
+// Falls back to the deployed backend so the app works even if the env var
+// isn't set on Vercel yet. Still, set NEXT_PUBLIC_API_URL explicitly in
+// Vercel Project Settings -> Environment Variables to the same value.
+const API_BASE_URL =
+  process.env.NEXT_PUBLIC_API_URL || 'https://news-ddd.onrender.com'
 
 async function apiRequest(endpoint: string, options: RequestInit = {}) {
   const url = `${API_BASE_URL}${endpoint}`
@@ -10,17 +14,17 @@ async function apiRequest(endpoint: string, options: RequestInit = {}) {
   }
 
   try {
-    const response = await fetch(url, { 
-      ...options, 
+    const response = await fetch(url, {
+      ...options,
       headers,
       // Add cache control for better performance
-      cache: 'no-store'
+      cache: 'no-store',
     })
-    
+
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`)
     }
-    
+
     return await response.json()
   } catch (error) {
     console.error('API Request failed:', error)
@@ -28,15 +32,78 @@ async function apiRequest(endpoint: string, options: RequestInit = {}) {
   }
 }
 
+// ---------------------------------------------------------------------------
+// Normalization helpers
+// The Django REST endpoints return snake_case fields (featured_image,
+// is_breaking, published_at, ...) while the rest of this app is typed in
+// camelCase (types/index.ts). These mappers translate one to the other so
+// every component can keep using article.featuredImage, article.isBreaking,
+// etc. without change.
+// ---------------------------------------------------------------------------
+
+function mapAuthor(raw: any): Author {
+  if (!raw) return raw
+  return {
+    id: raw.id,
+    name: raw.name,
+    avatar: raw.avatar || '',
+    bio: raw.bio || '',
+    role: raw.role || '',
+  }
+}
+
+function mapCategory(raw: any): Category {
+  if (!raw) return raw
+  return {
+    id: raw.id,
+    name: raw.name,
+    slug: raw.slug,
+    color: raw.color,
+    icon: raw.icon,
+    articleCount: raw.article_count ?? raw.articleCount,
+  }
+}
+
+function mapTag(raw: any): Tag {
+  if (!raw) return raw
+  return {
+    id: raw.id,
+    name: raw.name,
+    slug: raw.slug,
+  }
+}
+
+function mapArticle(raw: any): Article {
+  return {
+    id: raw.id,
+    title: raw.title,
+    slug: raw.slug,
+    excerpt: raw.excerpt,
+    content: raw.content,
+    featuredImage: raw.featured_image ?? raw.featuredImage,
+    author: mapAuthor(raw.author),
+    category: mapCategory(raw.category),
+    tags: Array.isArray(raw.tags) ? raw.tags.map(mapTag) : [],
+    isBreaking: raw.is_breaking ?? raw.isBreaking ?? false,
+    isFeatured: raw.is_featured ?? raw.isFeatured ?? false,
+    views: raw.views ?? 0,
+    likes: raw.likes ?? 0,
+    comments: raw.comments ?? 0,
+    readingTime: raw.reading_time ?? raw.readingTime ?? 1,
+    publishedAt: raw.published_at ?? raw.publishedAt,
+    createdAt: raw.created_at ?? raw.createdAt,
+    updatedAt: raw.updated_at ?? raw.updatedAt,
+  } as Article
+}
+
 // REST API Functions
 export async function getFeaturedArticles(): Promise<Article[]> {
   try {
     const data = await apiRequest('/api/featured/')
-    // Ensure we return an array even if data structure is different
-    return Array.isArray(data.articles) ? data.articles : (data || [])
+    const list = Array.isArray(data.featured_articles) ? data.featured_articles : []
+    return list.map(mapArticle)
   } catch (error) {
     console.error('Error fetching featured articles:', error)
-    // Return empty array - no mock data
     return []
   }
 }
@@ -44,19 +111,19 @@ export async function getFeaturedArticles(): Promise<Article[]> {
 export async function getLatestArticles(): Promise<Article[]> {
   try {
     const data = await apiRequest('/api/news/')
-    // Ensure we return an array even if data structure is different
-    return Array.isArray(data.articles) ? data.articles : (data || [])
+    const list = Array.isArray(data.articles) ? data.articles : []
+    return list.map(mapArticle)
   } catch (error) {
     console.error('Error fetching latest articles:', error)
-    // Return empty array - no mock data
     return []
   }
 }
 
 export async function getArticleBySlug(slug: string): Promise<Article | null> {
   try {
-    const data = await apiRequest(`/api/news/?slug=${slug}`)
-    return data.articles?.[0] || null
+    const data = await apiRequest(`/api/news/?slug=${encodeURIComponent(slug)}`)
+    const list = Array.isArray(data.articles) ? data.articles : []
+    return list[0] ? mapArticle(list[0]) : null
   } catch (error) {
     console.error('Error fetching article by slug:', error)
     return null
@@ -65,11 +132,11 @@ export async function getArticleBySlug(slug: string): Promise<Article | null> {
 
 export async function getArticlesByCategory(categorySlug: string): Promise<Article[]> {
   try {
-    const data = await apiRequest(`/api/news/?category=${categorySlug}`)
-    return Array.isArray(data.articles) ? data.articles : (data || [])
+    const data = await apiRequest(`/api/news/?category=${encodeURIComponent(categorySlug)}`)
+    const list = Array.isArray(data.articles) ? data.articles : []
+    return list.map(mapArticle)
   } catch (error) {
     console.error('Error fetching articles by category:', error)
-    // Return empty array - no mock data
     return []
   }
 }
@@ -77,21 +144,21 @@ export async function getArticlesByCategory(categorySlug: string): Promise<Artic
 export async function getBreakingNews(): Promise<Article[]> {
   try {
     const data = await apiRequest('/api/breaking/')
-    return Array.isArray(data.breaking_news) ? data.breaking_news : (data || [])
+    const list = Array.isArray(data.breaking_news) ? data.breaking_news : []
+    return list.map(mapArticle)
   } catch (error) {
     console.error('Error fetching breaking news:', error)
-    // Return empty array - no mock data
     return []
   }
 }
 
 export async function searchArticles(query: string): Promise<Article[]> {
   try {
-    const data = await apiRequest(`/api/search/?q=${encodeURIComponent(query)}`)
-    return Array.isArray(data.articles) ? data.articles : (data || [])
+    const data = await apiRequest(`/api/news/?q=${encodeURIComponent(query)}`)
+    const list = Array.isArray(data.articles) ? data.articles : []
+    return list.map(mapArticle)
   } catch (error) {
     console.error('Error searching articles:', error)
-    // Return empty array - no mock data
     return []
   }
 }
@@ -99,10 +166,10 @@ export async function searchArticles(query: string): Promise<Article[]> {
 export async function getCategories(): Promise<Category[]> {
   try {
     const data = await apiRequest('/api/categories/')
-    return Array.isArray(data.categories) ? data.categories : (data || [])
+    const list = Array.isArray(data.categories) ? data.categories : []
+    return list.map(mapCategory)
   } catch (error) {
     console.error('Error fetching categories:', error)
-    // Return empty array - no mock data
     return []
   }
 }
@@ -110,7 +177,8 @@ export async function getCategories(): Promise<Category[]> {
 export async function getAuthors(): Promise<Author[]> {
   try {
     const data = await apiRequest('/api/authors/')
-    return data.authors || []
+    const list = Array.isArray(data.authors) ? data.authors : []
+    return list.map(mapAuthor)
   } catch (error) {
     console.error('Error fetching authors:', error)
     return []
@@ -120,7 +188,8 @@ export async function getAuthors(): Promise<Author[]> {
 export async function getTags(): Promise<Tag[]> {
   try {
     const data = await apiRequest('/api/tags/')
-    return data.tags || []
+    const list = Array.isArray(data.tags) ? data.tags : []
+    return list.map(mapTag)
   } catch (error) {
     console.error('Error fetching tags:', error)
     return []
@@ -128,13 +197,44 @@ export async function getTags(): Promise<Tag[]> {
 }
 
 // Statistics and Analytics
-export async function getStats() {
+const emptyStats: Stats = {
+  totalArticles: 0,
+  totalAuthors: 0,
+  totalCategories: 0,
+  totalTags: 0,
+  breakingNews: 0,
+  featuredArticles: 0,
+  totalViews: 0,
+  totalLikes: 0,
+  topArticles: [],
+  articlesByCategory: [],
+}
+
+export async function getStats(): Promise<Stats> {
   try {
     const data = await apiRequest('/api/stats/')
-    return data.stats || {}
+    const s = data.stats || {}
+    return {
+      totalArticles: s.total_articles ?? 0,
+      totalAuthors: s.total_users ?? 0,
+      totalCategories: s.total_categories ?? 0,
+      totalTags: s.total_tags ?? 0,
+      breakingNews: s.breaking_news ?? 0,
+      featuredArticles: s.featured_articles ?? 0,
+      totalViews: s.total_views ?? 0,
+      totalLikes: s.total_likes ?? 0,
+      topArticles: Array.isArray(s.top_articles) ? s.top_articles : [],
+      articlesByCategory: Array.isArray(s.articles_by_category)
+        ? s.articles_by_category.map((c: any) => ({
+            slug: c.slug,
+            name: c.name,
+            articleCount: c.article_count,
+          }))
+        : [],
+    }
   } catch (error) {
     console.error('Error fetching stats:', error)
-    return {}
+    return emptyStats
   }
 }
 
@@ -170,7 +270,7 @@ export async function createArticle(articleData: Partial<Article>): Promise<Arti
       method: 'POST',
       body: JSON.stringify(articleData),
     })
-    return data.article || null
+    return data.article ? mapArticle(data.article) : null
   } catch (error) {
     console.error('Error creating article:', error)
     return null
@@ -179,11 +279,11 @@ export async function createArticle(articleData: Partial<Article>): Promise<Arti
 
 export async function updateArticle(id: number, articleData: Partial<Article>): Promise<Article | null> {
   try {
-    const data = await apiRequest(`/api/news/${id}/update/`, {
+    const data = await apiRequest(`/api/news/${id}/`, {
       method: 'PUT',
       body: JSON.stringify(articleData),
     })
-    return data.article || null
+    return data.article ? mapArticle(data.article) : null
   } catch (error) {
     console.error('Error updating article:', error)
     return null
@@ -192,7 +292,7 @@ export async function updateArticle(id: number, articleData: Partial<Article>): 
 
 export async function deleteArticle(id: number): Promise<boolean> {
   try {
-    await apiRequest(`/api/news/${id}/delete/`, {
+    await apiRequest(`/api/news/${id}/`, {
       method: 'DELETE',
     })
     return true
@@ -230,11 +330,11 @@ export async function graphqlQuery(query: string, variables?: any) {
     })
 
     const { data, errors } = await response.json()
-    
+
     if (errors) {
       throw new Error(errors[0].message)
     }
-    
+
     return data
   } catch (error) {
     console.error('GraphQL query failed:', error)
@@ -242,12 +342,13 @@ export async function graphqlQuery(query: string, variables?: any) {
   }
 }
 
-// Example GraphQL queries
+// Example GraphQL queries — field names match the actual backend schema
+// (news/graphql/schema.py), which graphene auto-camelCases from Python's
+// snake_case resolver names (e.g. all_articles -> allArticles).
 export const graphql = {
-  // Get all articles with minimal data
   getArticles: `
     query GetArticles {
-      articles {
+      allArticles {
         id
         title
         slug
@@ -271,10 +372,9 @@ export const graphql = {
     }
   `,
 
-  // Get article by slug with full details
   getArticleBySlug: `
     query GetArticleBySlug($slug: String!) {
-      article(slug: $slug) {
+      articleBySlug(slug: $slug) {
         id
         title
         slug
@@ -313,10 +413,9 @@ export const graphql = {
     }
   `,
 
-  // Get breaking news
   getBreakingNews: `
     query GetBreakingNews {
-      breakingNews {
+      breakingArticles {
         id
         title
         slug
@@ -336,7 +435,6 @@ export const graphql = {
     }
   `,
 
-  // Search articles
   searchArticles: `
     query SearchArticles($query: String!) {
       searchArticles(query: $query) {
@@ -359,76 +457,32 @@ export const graphql = {
     }
   `,
 
-  // Get categories with article counts
   getCategories: `
     query GetCategories {
-      categories {
+      allCategories {
         id
         name
         slug
         color
         icon
-        articleCount
       }
     }
   `,
 
-  // Get stats
-  getStats: `
-    query GetStats {
-      stats {
-        totalArticles
-        totalAuthors
-        totalCategories
-        totalTags
-        breakingNews
-        featuredArticles
-        totalViews
-        totalLikes
-        topArticles {
-          id
-          title
-          views
-        }
-        articlesByCategory {
-          slug
-          name
-          articleCount
-        }
-      }
-    }
-  `,
-
-  // Increment views mutation
   incrementViews: `
     mutation IncrementViews($articleId: Int!) {
       incrementViews(articleId: $articleId) {
         success
-        views
+        message
       }
     }
   `,
 
-  // Increment likes mutation
   incrementLikes: `
     mutation IncrementLikes($articleId: Int!) {
       incrementLikes(articleId: $articleId) {
         success
-        likes
-      }
-    }
-  `,
-
-  // Create article mutation
-  createArticle: `
-    mutation CreateArticle($input: ArticleInput!) {
-      createArticle(input: $input) {
-        success
-        article {
-          id
-          title
-          slug
-        }
+        message
       }
     }
   `,
