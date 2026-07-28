@@ -31,7 +31,10 @@ yarn-error.log*
 .pnpm-debug.log*
 
 # env files (can opt-in for committing if needed)
-.env*
+.env
+.env.local
+.env.development
+.env.production
 
 # vercel
 .vercel
@@ -39,3 +42,41 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+*.log.*
+
+# Temporary files
+.tmp/
+.temp/
+
+# Build artifacts
+.next/
+dist/
+build/
+
+# Coverage
+coverage/
+
+# Lock files (if using npm, keep package-lock.json)
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
+
+# Optional: Keep only the lock file you use
+!package-lock.json
+!yarn.lock
+!pnpm-lock.yaml

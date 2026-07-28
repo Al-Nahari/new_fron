@@ -1,0 +1,74 @@
+@import '../../app/globals.scss';
+
+.search-page {
+  padding: 40px 0;
+  
+  &-container {
+    @extend .container;
+  }
+  
+  &-header {
+    margin-bottom: 32px;
+    
+    h1 {
+      margin-bottom: 16px;
+    }
+    
+    &-input {
+      position: relative;
+      max-width: 600px;
+      
+      input {
+        width: 100%;
+        padding: 16px 48px 16px 20px;
+        border: 2px solid $border-color;
+        border-radius: 12px;
+        font-size: 1.1rem;
+        transition: all 0.3s ease;
+        
+        &:focus {
+          outline: none;
+          border-color: $primary-color;
+          box-shadow: 0 0 0 4px rgba(0, 112, 243, 0.1);
+        }
+      }
+      
+      &-icon {
+        position: absolute;
+        right: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: $text-light;
+        pointer-events: none;
+      }
+    }
+    
+    &-results {
+      margin-top: 16px;
+      color: $text-light;
+    }
+  }
+  
+  &-loading {
+    @include flex-center;
+    padding: 60px 20px;
+    
+    .spinner {
+      width: 50px;
+      height: 50px;
+    }
+  }
+  
+  &-error {
+    @extend .error-message;
+  }
+  
+  &-empty {
+    @extend .empty-state;
+  }
+  
+  &-grid {
+    @extend .grid;
+    @extend .grid-3;
+  }
+}

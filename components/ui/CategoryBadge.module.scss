@@ -1,0 +1,33 @@
+/* CategoryBadge Styles - Converted from Sass to CSS */
+
+.category-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  background: #0070f3;
+  color: white;
+}
+
+.category-badge-breaking {
+  background: #e74c3c;
+  color: white;
+}
+
+.category-badge-opinion {
+  background: #9b59b6;
+  color: white;
+}
+
+.category-badge-large {
+  padding: 6px 16px;
+  font-size: 0.85rem;
+}
+
+.category-badge-small {
+  padding: 3px 10px;
+  font-size: 0.7rem;
+}

@@ -1,0 +1,48 @@
+@import '../../app/globals.scss';
+
+.opinion-page {
+  padding: 40px 0;
+  
+  &-container {
+    @extend .container;
+  }
+  
+  &-header {
+    @include flex-between;
+    margin-bottom: 32px;
+    
+    h1 {
+      margin: 0;
+      color: #9b59b6;
+    }
+    
+    &-badge {
+      @extend .badge-opinion;
+      font-size: 0.9rem;
+      padding: 6px 16px;
+    }
+  }
+  
+  &-loading {
+    @include flex-center;
+    padding: 60px 20px;
+    
+    .spinner {
+      width: 50px;
+      height: 50px;
+    }
+  }
+  
+  &-error {
+    @extend .error-message;
+  }
+  
+  &-empty {
+    @extend .empty-state;
+  }
+  
+  &-grid {
+    @extend .grid;
+    @extend .grid-3;
+  }
+}

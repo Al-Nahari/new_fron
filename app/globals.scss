@@ -1,0 +1,399 @@
+// Variables
+$primary-color: #0070f3;
+$secondary-color: #00c6ff;
+$background-color: #ffffff;
+$text-color: #333333;
+$text-light: #666666;
+$border-color: #e0e0e0;
+$shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+$shadow-hover: 0 4px 16px rgba(0, 0, 0, 0.15);
+
+// Breakpoints
+$mobile: 480px;
+$tablet: 768px;
+$desktop: 1024px;
+$wide: 1280px;
+
+// Mixins
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+@mixin respond-to($breakpoint) {
+  @if $breakpoint == mobile {
+    @media (max-width: #{$tablet - 1}) { @content; }
+  } @else if $breakpoint == tablet {
+    @media (min-width: $tablet) and (max-width: #{$desktop - 1}) { @content; }
+  } @else if $breakpoint == desktop {
+    @media (min-width: $desktop) { @content; }
+  }
+}
+
+// Reset
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: $background-color;
+  color: $text-color;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: inherit;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+// Layout
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  
+  @include respond-to(mobile) {
+    padding: 0 15px;
+  }
+}
+
+// Typography
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+h1 {
+  font-size: 2.5rem;
+  
+  @include respond-to(mobile) {
+    font-size: 2rem;
+  }
+}
+
+h2 {
+  font-size: 2rem;
+  
+  @include respond-to(mobile) {
+    font-size: 1.5rem;
+  }
+}
+
+h3 {
+  font-size: 1.5rem;
+  
+  @include respond-to(mobile) {
+    font-size: 1.25rem;
+  }
+}
+
+// Buttons
+.btn {
+  @include flex-center;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  gap: 8px;
+  
+  &-primary {
+    background: $primary-color;
+    color: white;
+    
+    &:hover {
+      background: darken($primary-color, 10%);
+      transform: translateY(-2px);
+      box-shadow: $shadow-hover;
+    }
+  }
+  
+  &-secondary {
+    background: $secondary-color;
+    color: white;
+    
+    &:hover {
+      background: darken($secondary-color, 10%);
+      transform: translateY(-2px);
+    }
+  }
+  
+  &-outline {
+    border: 2px solid $primary-color;
+    color: $primary-color;
+    background: transparent;
+    
+    &:hover {
+      background: $primary-color;
+      color: white;
+    }
+  }
+  
+  &-disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    
+    &:hover {
+      transform: none;
+      background: inherit;
+    }
+  }
+}
+
+// Cards
+.card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: $shadow;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    box-shadow: $shadow-hover;
+    transform: translateY(-4px);
+  }
+}
+
+// Loading Spinner
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid $border-color;
+  border-top-color: $primary-color;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  
+  @include flex-center;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+// Error State
+.error-message {
+  @include flex-column;
+  @include flex-center;
+  padding: 40px;
+  text-align: center;
+  gap: 16px;
+  
+  h3 {
+    color: #e74c3c;
+  }
+  
+  p {
+    color: $text-light;
+  }
+}
+
+// Empty State
+.empty-state {
+  @include flex-column;
+  @include flex-center;
+  padding: 60px 20px;
+  text-align: center;
+  gap: 16px;
+  
+  h3 {
+    color: $text-light;
+  }
+  
+  p {
+    color: $text-light;
+    font-size: 0.95rem;
+  }
+}
+
+// Badge
+.badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  
+  &-category {
+    background: $primary-color;
+    color: white;
+  }
+  
+  &-breaking {
+    background: #e74c3c;
+    color: white;
+  }
+  
+  &-opinion {
+    background: #9b59b6;
+    color: white;
+  }
+}
+
+// Grid Layout
+.grid {
+  display: grid;
+  gap: 24px;
+  
+  &-2 {
+    grid-template-columns: repeat(2, 1fr);
+    
+    @include respond-to(mobile) {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  &-3 {
+    grid-template-columns: repeat(3, 1fr);
+    
+    @include respond-to(mobile) {
+      grid-template-columns: 1fr;
+    }
+    
+    @include respond-to(tablet) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  &-4 {
+    grid-template-columns: repeat(4, 1fr);
+    
+    @include respond-to(mobile) {
+      grid-template-columns: 1fr;
+    }
+    
+    @include respond-to(tablet) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    
+    @include respond-to(desktop) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+}
+
+// Input Fields
+.input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid $border-color;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  
+  &:focus {
+    outline: none;
+    border-color: $primary-color;
+    box-shadow: 0 0 0 3px rgba(0, 112, 243, 0.1);
+  }
+  
+  &::placeholder {
+    color: #999;
+  }
+}
+
+// Utility Classes
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.text-left { text-align: left; }
+
+.mt-1 { margin-top: 8px; }
+.mt-2 { margin-top: 16px; }
+.mt-3 { margin-top: 24px; }
+.mt-4 { margin-top: 32px; }
+
+.mb-1 { margin-bottom: 8px; }
+.mb-2 { margin-bottom: 16px; }
+.mb-3 { margin-bottom: 24px; }
+.mb-4 { margin-bottom: 32px; }
+
+.p-1 { padding: 8px; }
+.p-2 { padding: 16px; }
+.p-3 { padding: 24px; }
+.p-4 { padding: 32px; }
+
+.gap-1 { gap: 8px; }
+.gap-2 { gap: 16px; }
+.gap-3 { gap: 24px; }
+
+// Scrollbar
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+  
+  &:hover {
+    background: #555;
+  }
+}
+
+// Selection
+::selection {
+  background: $primary-color;
+  color: white;
+}
+
+// App Body and Main Layout
+.app-body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #f8f9fa;
+}
+
+.app-main {
+  flex-grow: 1;
+  padding: 24px 0;
+  
+  @include respond-to(mobile) {
+    padding: 16px 0;
+  }
+}
+
+// Container overrides for app layout
+.app-main .container {
+  padding: 0 20px;
+  
+  @include respond-to(mobile) {
+    padding: 0 15px;
+  }
+}

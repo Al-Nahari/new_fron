@@ -1,0 +1,114 @@
+/* BreakingNews Styles - Converted from Sass to CSS */
+
+.breaking-news {
+  background: #e74c3c;
+  color: white;
+  padding: 12px 0;
+  overflow: hidden;
+}
+
+.breaking-news-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.breaking-news-label {
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
+
+.breaking-news-ticker {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+}
+
+.breaking-news-content {
+  display: inline-block;
+  white-space: nowrap;
+  animation: scroll-left 30s linear infinite;
+  font-weight: 600;
+}
+
+.breaking-news-content:hover {
+  animation-play-state: paused;
+}
+
+.breaking-news-item {
+  display: inline-block;
+  margin-right: 40px;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+.breaking-news-item:hover {
+  opacity: 0.8;
+  text-decoration: underline;
+}
+
+.breaking-news-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.breaking-news-loading .spinner {
+  width: 20px;
+  height: 20px;
+  border-width: 2px;
+  border-top-color: white;
+}
+
+.breaking-news-error {
+  text-align: center;
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+.breaking-news-empty {
+  text-align: center;
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+@keyframes scroll-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .breaking-news {
+    padding: 8px 0;
+  }
+  
+  .breaking-news-container {
+    gap: 8px;
+  }
+  
+  .breaking-news-content {
+    animation-duration: 20s;
+  }
+  
+  .breaking-news-item {
+    margin-right: 24px;
+  }
+  
+  .breaking-news-label {
+    font-size: 0.75rem;
+  }
+}
