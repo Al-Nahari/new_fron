@@ -4,21 +4,21 @@ import type { NextConfig } from "next";
 // Project Settings -> Environment Variables (both NEXT_PUBLIC_API_URL
 // and BACKEND_URL should point at your deployed backend, e.g. Render).
 // Falls back to localhost only for local development.
-const BACKEND_URL = process.env.NEXT_PUBLIC_API_URL || process.env.BACKEND_URL || "http://127.0.0.1:8000";
+const BACKEND_URL = process.env.NEXT_PUBLIC_API_URL || process.env.BACKEND_URL || "https://127.0.0.1:8000";
 
 const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: "http",
-        hostname: "localhost",
-        port: "8000",
+        protocol: "https",
+        hostname: "news-ddd.onrender.com",
+        port: "80",
         pathname: "/media/**",
       },
       {
-        protocol: "http",
-        hostname: "127.0.0.1",
-        port: "8000",
+        protocol: "https",
+        hostname: "news-ddd.onrender.com",
+        port: "80",
         pathname: "/media/**",
       },
       {
@@ -69,7 +69,7 @@ const nextConfig: NextConfig = {
 
   // Environment variables
   env: {
-    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000",
+    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL || "https://localhost:8000",
   },
 
   // Enable React Strict Mode for better error handling
