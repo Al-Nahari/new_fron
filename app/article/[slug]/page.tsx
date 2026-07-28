@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: ArticlePageProps) {
     openGraph: {
       title: article.title,
       description: article.excerpt,
-      images: [article.featuredImage],
+      images: article.featuredImage ? [article.featuredImage] : [],
     },
   }
 }
@@ -79,7 +79,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                 <div className="author">
                   <div className="relative w-12 h-12 rounded-full overflow-hidden bg-gray-200">
                     <Image
-                      src={article.author.avatar}
+                      src={article.author.avatar || '/images/placeholder.png'}
                       alt={article.author.name}
                       fill
                       className="object-cover"

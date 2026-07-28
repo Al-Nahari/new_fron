@@ -41,11 +41,27 @@ async function apiRequest(endpoint: string, options: RequestInit = {}) {
 // etc. without change.
 // ---------------------------------------------------------------------------
 
+const FALLBACK_AUTHOR: Author = {
+  id: 0,
+  name: 'غير معروف',
+  avatar: '',
+  bio: '',
+  role: '',
+}
+
+const FALLBACK_CATEGORY: Category = {
+  id: 0,
+  name: 'عام',
+  slug: 'general',
+  color: '#6b7280',
+  icon: '',
+}
+
 function mapAuthor(raw: any): Author {
-  if (!raw) return raw
+  if (!raw) return FALLBACK_AUTHOR
   return {
     id: raw.id,
-    name: raw.name,
+    name: raw.name || FALLBACK_AUTHOR.name,
     avatar: raw.avatar || '',
     bio: raw.bio || '',
     role: raw.role || '',
@@ -53,12 +69,12 @@ function mapAuthor(raw: any): Author {
 }
 
 function mapCategory(raw: any): Category {
-  if (!raw) return raw
+  if (!raw) return FALLBACK_CATEGORY
   return {
     id: raw.id,
-    name: raw.name,
-    slug: raw.slug,
-    color: raw.color,
+    name: raw.name || FALLBACK_CATEGORY.name,
+    slug: raw.slug || FALLBACK_CATEGORY.slug,
+    color: raw.color || FALLBACK_CATEGORY.color,
     icon: raw.icon,
     articleCount: raw.article_count ?? raw.articleCount,
   }
