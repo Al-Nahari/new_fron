@@ -12,13 +12,11 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "news-ddd.onrender.com",
-        port: "80",
         pathname: "/media/**",
       },
       {
         protocol: "https",
         hostname: "news-ddd.onrender.com",
-        port: "80",
         pathname: "/media/**",
       },
       {
