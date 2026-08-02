@@ -146,12 +146,7 @@ const Footer = () => {
           <p className="text-gray-500 mb-2">
             جميع الحقوق محفوظة © {new Date().getFullYear()} موقع حبر الإخباري
           </p>
-          <p className="text-gray-600 text-sm">
-            تم تطوير الموقع بأحدث التقنيات لتقديم أفضل تجربة للمستخدم
-          </p>
-          <p className="text-gray-500 text-xs mt-2">
-            تصميم وتطوير: Nahari | هاتف: +967 771 735 416 | Email: nahari771735416@gmail.com
-          </p>
+          
         </div>
       </div>
     </footer>
