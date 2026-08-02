@@ -61,13 +61,11 @@ app/
 ├── page.tsx            # الصفحة الرئيسية
 ├── not-found.tsx       # صفحة 404
 ├── providers.tsx       # موفرو السياق
-├── dashboard/          # لوحة التحكم
 ├── category/           # صفحات الأقسام
 ├── article/            # صفحات المقالات
 ├── search/             # صفحة البحث
 ├── login/              # صفحة تسجيل الدخول
 ├── breaking/           # الأخبار العاجلة
-└── opinion/            # الرأي والتحليل
 
 components/
 ├── layout/             # مكونات التخطيط

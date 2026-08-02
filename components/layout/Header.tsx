@@ -14,8 +14,6 @@ const Header = () => {
   const navItems = [
     { name: 'الرئيسية', href: '/' },
     { name: 'الأخبار العاجلة', href: '/breaking' },
-    { name: 'الرأي', href: '/opinion' },
-    { name: 'لوحة التحكم', href: '/dashboard' },
   ]
 
   const handleSearch = (e: React.FormEvent) => {

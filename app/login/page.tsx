@@ -47,9 +47,7 @@ export default function LoginPage() {
           <h2 className="text-center text-3xl font-extrabold text-gray-900">
             تسجيل الدخول
           </h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
-            إلى لوحة التحكم الإدارية
-          </p>
+          
         </div>
         
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>

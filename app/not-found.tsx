@@ -19,12 +19,7 @@ export default function NotFound() {
           >
             العودة للرئيسية
           </Link>
-          <Link
-            href="/dashboard"
-            className="btn btn-outline"
-          >
-            لوحة التحكم
-          </Link>
+          
         </div>
 
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mt-6 text-sm text-blue-800">

@@ -49,7 +49,6 @@ const OpinionSection = () => {
     <div className={styles['opinion-section']}>
       <div className={styles['opinion-section-container']}>
         <div className="flex justify-between items-center mb-6">
-          <h2 className={styles['opinion-section-title']}>الرأي والتحليل</h2>
           
           {opinions.length > 3 && (
             <button 
