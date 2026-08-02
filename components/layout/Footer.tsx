@@ -17,10 +17,10 @@ const Footer = () => {
   ]
 
   const socialLinks = [
-    { name: 'تويتر', href: 'https://twitter.com/hbrnews', icon: '𝕏' },
-    { name: 'فيسبوك', href: 'https://facebook.com/hbrnews', icon: 'f' },
-    { name: 'انستغرام', href: 'https://instagram.com/hbrnews', icon: '📷' },
-    { name: 'يوتيوب', href: 'https://youtube.com/hbrnews', icon: '▶' },
+    { name: 'تويتر', href: 'https://twitter.com/', icon: '𝕏' },
+    { name: 'فيسبوك', href: 'https://facebook.com/', icon: 'f' },
+    { name: 'انستغرام', href: 'https://instagram.com/', icon: '📷' },
+    { name: 'يوتيوب', href: 'https://youtube.com/', icon: '▶' },
   ]
 
   return (
@@ -107,15 +107,15 @@ const Footer = () => {
             <div className="space-y-3 text-sm">
               <div className="flex items-start gap-2">
                 <span className="text-primary">📍</span>
-                <span className="text-gray-400">الرياض، المملكة العربية السعودية</span>
+                <span className="text-gray-400">  حبر</span>
               </div>
               <div className="flex items-start gap-2">
                 <span className="text-primary">📞</span>
-                <span className="text-gray-400">+966 55 771 735 416</span>
+                <span className="text-gray-400">+967 777 363 339</span>
               </div>
               <div className="flex items-start gap-2">
                 <span className="text-primary">✉️</span>
-                <span className="text-gray-400">nahari771735416@gmail.com</span>
+                <span className="text-gray-400">nahari777363339@gmail.com</span>
               </div>
             </div>
           </div>
