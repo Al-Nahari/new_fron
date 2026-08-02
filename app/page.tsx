@@ -20,7 +20,9 @@ export default async function Home() {
       <div className={styles['home-page']}>
         {/* Hero Section with Featured Article */}
         {featuredArticle && featuredArticle.length > 0 && (
-          <HeroSection featuredArticle={featuredArticle[0]} />
+          <div className={styles['home-hero']}>
+            <HeroSection featuredArticle={featuredArticle[0]} />
+          </div>
         )}
         
         {/* Latest News Grid - Limited to 12 articles initially */}

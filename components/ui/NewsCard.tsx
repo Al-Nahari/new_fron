@@ -23,16 +23,15 @@ const NewsCard = ({ article, size = 'medium', variant = 'default' }: NewsCardPro
     setLikes(isLiked ? likes - 1 : likes + 1)
   }
 
-  const sizes = {
-    small: 'h-40',
-    medium: 'h-48',
-    large: 'h-64',
-  }
-
   // Placeholder image for articles without images
   const placeholderImage = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="300"%3E%3Crect width="400" height="300" fill="%23e5e7eb"/%3E%3Ctext x="50%25" y="50%25" text-anchor="middle" dy=".3em" fill="%239ca3af" font-family="sans-serif" font-size="16"%3Eصورة الخبر%3C/text%3E%3C/svg%3E'
 
-  const cardClass = `${styles['news-card']} ${variant === 'featured' ? styles.featured : ''} ${variant === 'compact' ? styles.compact : ''}`
+  const cardClass = [
+    styles['news-card'],
+    styles[`size-${size}`],
+    variant === 'featured' ? styles.featured : '',
+    variant === 'compact' ? styles.compact : '',
+  ].filter(Boolean).join(' ')
 
   return (
     <Link href={`/article/${article.slug}`}>

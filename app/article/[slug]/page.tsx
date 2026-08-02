@@ -50,7 +50,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
           <div className={styles['article-page-body']}>
             <div className={styles['article-page-header']}>
               <div className={styles['article-page-header-top']}>
-                <div className="meta">
+                <div className={styles.meta}>
                   <CategoryBadge category={article.category} />
                   {article.isBreaking && (
                     <span className="badge badge-breaking">عاجل</span>
@@ -76,7 +76,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
               </p>
               
               <div className={styles['article-page-header-info']}>
-                <div className="author">
+                <div className={styles.author}>
                   <div className="relative w-12 h-12 rounded-full overflow-hidden bg-gray-200">
                     <Image
                       src={article.author.avatar || '/images/placeholder.png'}
@@ -89,7 +89,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                   <span>{article.author.name}</span>
                 </div>
                 
-                <div className="stats">
+                <div className={styles.stats}>
                   <span className="flex items-center gap-1">
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />

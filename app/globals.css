@@ -1,9 +1,34 @@
-/* Import Sass styles */
+/* Tailwind CSS - loaded first so the cascade layers it defines
+   (base / components / utilities) sit underneath our own rules below,
+   letting the SCSS design system and custom classes safely coexist
+   with Tailwind utility classes used throughout the components. */
+@import "tailwindcss";
+
+/* Design tokens exposed to Tailwind's utility generator.
+   These map 1:1 to the SCSS variables in app/_variables.scss so both
+   styling systems (Tailwind utilities + CSS Modules/SCSS) share one
+   single source of truth for color/shadow instead of drifting apart. */
+@theme {
+  --color-primary: #0070f3;
+  --color-primary-dark: #0058c4;
+  --color-secondary: #00c6ff;
+
+  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.1);
+  --shadow-card-hover: 0 4px 16px rgba(0, 0, 0, 0.15);
+
+  --font-sans: 'Tahoma', 'Segoe UI', 'Noto Sans Arabic', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* Import Sass styles (base resets, buttons, cards, grid, etc.) */
 @import './globals.scss';
 
 /* Additional CSS-only styles */
 html {
   scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
 }
 
 /* Focus styles for accessibility */
@@ -19,7 +44,7 @@ img {
   -webkit-user-drag: none;
 }
 
-/* Custom scrollbar for WebKit browsers */
+/* Custom scrollbar (WebKit + Firefox) */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -38,10 +63,36 @@ img {
   background: #555;
 }
 
-/* Firefox scrollbar */
 * {
   scrollbar-width: thin;
   scrollbar-color: #888 #f1f1f1;
+}
+
+/* Gradient overlay used behind text on top of hero/media images
+   for readable white text (was referenced in HeroSection but never
+   defined anywhere, so it rendered as a no-op class). */
+.gradient-overlay {
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.85) 0%,
+    rgba(0, 0, 0, 0.55) 45%,
+    rgba(0, 0, 0, 0.05) 100%
+  );
+}
+
+/* Shared labeled-field wrapper used by forms (Newsletter, dashboard
+   forms). Was referenced as class="input-group" in Newsletter.tsx
+   but never defined at the global level. */
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.input-group label {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #333333;
 }
 
 /* Loading animation for images */
@@ -65,7 +116,7 @@ img[data-loading="true"] {
   .no-print {
     display: none !important;
   }
-  
+
   .print-only {
     display: block !important;
   }

@@ -1,26 +1,19 @@
-/* Home Page Styles - Converted from Sass to CSS */
+/* Home Page Styles
+   Trimmed down to only the classes actually used by app/page.tsx.
+   The previous file also defined .hero-section, .trending-section and
+   .quick-links blocks that had no corresponding markup anywhere in the
+   app - dead CSS that made the stylesheet harder to trust/maintain. */
 
 .home-page {
   min-height: 100vh;
 }
 
-.home-page-container {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
-}
+.home-hero {
+  padding: 32px 0 8px;
 
-.home-page-loading {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 100px 20px;
-}
-
-.home-page-loading .spinner {
-  width: 60px;
-  height: 60px;
+  @media (max-width: 768px) {
+    padding: 20px 0 4px;
+  }
 }
 
 .home-page-error {
@@ -28,10 +21,9 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 40px;
+  padding: 100px 20px;
   text-align: center;
   gap: 16px;
-  padding: 100px 20px;
 }
 
 .home-page-error h3 {
@@ -40,228 +32,4 @@
 
 .home-page-error p {
   color: #666666;
-}
-
-.home-page-empty {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 60px 20px;
-  text-align: center;
-  gap: 16px;
-  padding: 100px 20px;
-}
-
-.home-page-empty h3 {
-  color: #666666;
-}
-
-.home-page-empty p {
-  color: #666666;
-  font-size: 0.95rem;
-}
-
-/* Hero Section */
-.hero-section {
-  background: linear-gradient(135deg, #0070f3 0%, #00c6ff 100%);
-  color: white;
-  padding: 80px 0;
-  text-align: center;
-}
-
-.hero-section-container {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
-  max-width: 800px;
-}
-
-.hero-section h1 {
-  color: white;
-  font-size: 3rem;
-  margin-bottom: 16px;
-}
-
-.hero-section p {
-  font-size: 1.2rem;
-  opacity: 0.9;
-  margin-bottom: 32px;
-}
-
-.hero-section-actions {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
-}
-
-/* Section */
-.section {
-  padding: 60px 0;
-}
-
-.section-container {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
-}
-
-.section-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 32px;
-}
-
-.section-header h2 {
-  margin: 0;
-}
-
-.section-header-actions {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-}
-
-.section-loading {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 40px;
-}
-
-.section-error {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 40px;
-  text-align: center;
-  gap: 16px;
-}
-
-.section-error h3 {
-  color: #e74c3c;
-}
-
-.section-error p {
-  color: #666666;
-}
-
-.section-empty {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 60px 20px;
-  text-align: center;
-  gap: 16px;
-}
-
-.section-empty h3 {
-  color: #666666;
-}
-
-.section-empty p {
-  color: #666666;
-  font-size: 0.95rem;
-}
-
-/* Trending Section */
-.trending-section {
-  background: #f8f9fa;
-  padding: 40px 0;
-}
-
-.trending-section-container {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
-}
-
-.trending-section-grid {
-  display: grid;
-  gap: 24px;
-  grid-template-columns: repeat(4, 1fr);
-}
-
-/* Quick Links */
-.quick-links {
-  padding: 40px 0;
-}
-
-.quick-links-container {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
-}
-
-.quick-links-grid {
-  display: grid;
-  gap: 24px;
-  grid-template-columns: repeat(4, 1fr);
-}
-
-.quick-links-card {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  transition: all 0.3s ease;
-  padding: 24px;
-  text-align: center;
-  cursor: pointer;
-}
-
-.quick-links-card-icon {
-  font-size: 2rem;
-  margin-bottom: 12px;
-}
-
-.quick-links-card-title {
-  font-weight: 600;
-  margin: 0;
-}
-
-.quick-links-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
-}
-
-.quick-links-card:hover .quick-links-card-icon {
-  color: #0070f3;
-}
-
-/* Mobile Responsive */
-@media (max-width: 768px) {
-  .hero-section h1 {
-    font-size: 2rem;
-  }
-  
-  .hero-section p {
-    font-size: 1rem;
-  }
-  
-  .hero-section-actions {
-    flex-direction: column;
-    width: 100%;
-  }
-  
-  .hero-section-actions .btn {
-    width: 100%;
-  }
-  
-  .quick-links-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  
-  .trending-section-grid {
-    grid-template-columns: 1fr;
-  }
 }

@@ -1,10 +1,9 @@
 import Link from 'next/link'
-import styles from './page.module.scss'
 
 export default function NotFound() {
   return (
-    <div className={styles['home-page']}>
-      <div className="max-w-md w-full space-y-8 text-center">
+    <div className="min-h-[70vh] flex items-center justify-center px-4">
+      <div className="max-w-md w-full mx-auto space-y-8 text-center">
         <div className="space-y-4">
           <div className="text-6xl font-bold text-primary">404</div>
           <h2 className="text-3xl font-bold text-gray-900">الصفحة غير موجودة</h2>
